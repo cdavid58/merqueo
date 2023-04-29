@@ -1,0 +1,127 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card mb-3">
+    <div class="card-body">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-md">
+          <h5 class="mb-2 mb-md-0">Pedido #{{number}}</h5>
+        </div>
+        <!-- <div class="col-auto">
+          <button class="btn btn-falcon-default btn-sm me-1 mb-2 mb-sm-0" type="button"><span class="fas fa-arrow-down me-1"> </span>Download (.pdf)</button>
+          <button class="btn btn-falcon-default btn-sm me-1 mb-2 mb-sm-0" type="button"><span class="fas fa-print me-1"> </span>Print</button>
+          <button class="btn btn-falcon-success btn-sm mb-2 mb-sm-0" type="button"><span class="fas fa-dollar-sign me-1"></span>Receive Payment</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row align-items-center text-center mb-3">
+        <div class="col-sm-6 text-sm-start"><img src="{% static 'letra.png' %}" alt="invoice" width="100" /></div>
+        <div class="col text-sm-end mt-3 mt-sm-0">
+          <h2 class="mb-3">RapiMercados</h2>
+          <h5>Rapimercados</h5>
+          <p class="fs--1 mb-0">Cra 40 #49-24, Medellín<br />Antioquia - Colombia</p>
+        </div>
+        <div class="col-12">
+          <hr />
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <h6 class="text-500">Pedido a</h6>
+          <h5>{{request.session.data_user.name|title}}</h5>
+          <p class="fs--1">{{request.session.data_user.address}}<br /></p>
+          <p class="fs--1">
+            <a href="mailto:{{request.session.data_user.email}}">
+              E-mail: {{request.session.data_user.email}}
+            </a><br />
+            <a href="tel:{{user.phone}}">
+              Tlf: {{request.session.data_user.phone}}
+            </a>
+          </p>
+        </div>
+        <div class="col-sm-auto ms-auto">
+          <div class="table-responsive">
+            <table class="table table-sm table-borderless fs--1">
+              <tbody>
+                <tr>
+                  <th class="text-sm-end">Pedido N°:</th>
+                  <td>{{number}}</td>
+                </tr>
+                <tr>
+                  <th class="text-sm-end">Fecha del pedido:</th>
+                  <td>{{date}}</td>
+                </tr>
+                <tr>
+                  <th class="text-sm-end">Forma de pago:</th>
+                  <td>Contra entrega</td>
+                </tr>
+                <tr class="alert-success fw-bold">
+                  <th class="text-sm-end">Cantidad adeudada:</th>
+                  <td>${{total}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive scrollbar mt-4 fs--1">
+        <table class="table table-striped border-bottom">
+          <thead class="light">
+            <tr class="bg-primary text-white dark__bg-1000">
+              <th class="border-0">Articulo</th>
+              <th class="border-0 text-center">Cantidad</th>
+              <th class="border-0 text-end">Precio</th>
+              <th class="border-0 text-end">Descuento</th>
+              <th class="border-0 text-end">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in data %}
+              <tr>
+                <td class="align-middle">
+                  <h6 class="mb-0 text-nowrap">{{i.product}}</h6>
+                </td>
+                <td class="align-middle text-center">{{i.quanty}}</td>
+                <td class="align-middle text-end">${{i.price}}</td>
+                <td class="align-middle text-end">{{i.discount}}</td>
+                <td class="align-middle text-end">${{i.total}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="row justify-content-end">
+        <div class="col-auto">
+          <table class="table table-sm table-borderless fs--1 text-end">
+            <tr>
+              <th class="text-900">Subtotal:</th>
+              <td class="fw-semi-bold">${{total}} </td>
+            </tr>
+            <tr class="border-top">
+              <th class="text-900">Total:</th>
+              <td class="fw-semi-bold">${{total}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer bg-light">
+      <p class="fs--1 mb-0"><strong>Notas: </strong>Realmente apreciamos su negocio y si hay algo más que podamos hacer, ¡háganoslo saber!</p>
+    </div>
+  </div>
+
+{% endblock %}
+{% block script %}
+
+  <script>
+    $(document).ready(function(){
+      $('.number_cart').text('{{n_cart}}')
+      localStorage.clear();
+    })
+  </script>
+
+{% endblock %}

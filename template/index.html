@@ -2,17 +2,69 @@
 {% load static %}
 {% block content %}
 <style>
-  .slider {
-      height: 400px;
-  }
-  .slide-card {
-      width: 300px;
-  }
-  .arrow {
-      width: 40px;
-      height: 40px;
+
+  .my-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    height: 100% !important;
+    width: 100%;
+    margin: auto;
   }
 
 </style>
-<main class="slider-product"></main>
+
+{% for i in category %}
+  <div class="container">
+    <h2>{{i.name}}</h2>
+    <div class="owl-carousel{{i.name}} owl-carousel owl-theme">
+      {% for j in products %}
+        {% if j.category == i.name %}
+          <div class="item">
+            <div class="my-card">
+              <img src="{{j.img}}" style="width: 100%;height: 100%;" alt="Descripción de la imagen">
+              {% if j.discount > 0 %}
+                <span class="badge rounded-pill bg-danger position-absolute mt-2 me-2 z-index-2 top-0 start-0 p-1"> -{{j.discount}}%
+                </span>
+              {% endif %}
+              <div class="card-body">
+                <h6 class="card-title">{{j.product}}</h6>
+                <p class="card-text">{{j.price}}</p>
+                <a href="#" class="btn btn-primary">Agregar</a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <br>
+{% endfor %}
+{% endblock %}
+{% block script %}
+<script>
+  $(document).ready(function(){
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 5,
+      nav: false,
+      autoplay: true, // Activamos el autoplay
+      autoplayTimeout: 3500, // Tiempo de espera entre cada movimiento
+      autoplayHoverPause: true,
+      responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:3
+        },
+        1000:{
+            items:5
+        }
+      }
+    })
+
+
+  })
+</script>
 {% endblock %}

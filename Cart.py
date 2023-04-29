@@ -21,27 +21,29 @@ class Cart(object):
 		d = {'total':car['total']}
 		return d
 
-	def Add(self,inventory,price,quanty,type_product):
+	def Add(self,product,quanty):
 		result = False
-		if str(inventory.pk) in self.cart:
-			total = int(price) * int(quanty)
-			cart = self.cart[str(inventory.pk)]
+		if int(quanty) <= 0:
+			self.remove(product)
+		elif str(product['code']) in self.cart and int(quanty) > 0:
+			total = int(product['price']) * int(quanty)
+			cart = self.cart[str(product['code'])]
 			cart['quanty'] = quanty
 			cart['total'] = total
-			cart['price'] = price
-			cart['type'] = type_product
-		else:
-			total = int(price) * int(quanty)
-			self.cart[str(inventory.pk)] = {'pk':inventory.pk, 'code':inventory.code,'article':inventory.article,'quanty':quanty,'price':price,'total':total,'type':type_product}
+			cart['price'] = product['price']
+		elif int(quanty) > 0:
+			total = int(product['price']) * int(quanty)
+			self.cart[str(product['code'])] = {'code':product['code'],'product':product['product'],'quanty':quanty,'price':product['price'],'discount':product['discount'],'total':total,'img':product['img']}
 			result = True
 		self.save()
 		print(self.cart)
 		return result
 
 	def remove(self,product):
-		product_id = str(product.pk)
+		product_id = str(product['code'])
 		if product_id in self.cart:
 			del self.cart[product_id]
+			print('removido')
 			self.save()
 
 	def __iter__(self):

@@ -1,0 +1,172 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+<div class="alert alert-danger border-2 d-flex align-items-center alerta" style="display: none !important;" role="alert">
+  <div class="bg-danger me-3 icon-item"><span class="fas fa-times-circle text-white fs-3"></span></div>
+  <p class="mb-0 flex-1">Para finalizar la orden debe ingresar a la cuenta!</p>
+  <!-- <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button> -->
+</div>
+
+<div class="card">
+    <div class="card-header">
+      <div class="row justify-content-between">
+        <div class="col-md-auto">
+          <h5 class="mb-3 mb-md-0">Carrito de compras ({{cnt_cart}} {% if cnt_cart == 1 %}artículo{% else %}artículos{% endif %})</h5>
+        </div>
+        <div class="col-md-auto">
+          <a class="btn btn-sm btn-outline-success border-300 me-2" href="{% url 'List_Products' request.session.categoria request.session.subcategory %}"> 
+            <span class="fas fa-chevron-left me-1" data-fa-transform="shrink-4"></span>
+            Continuar comprando
+          </a>
+          {% if cnt_cart > 0 %}
+            <button class="btn btn-sm btn-primary end_order">
+              Finalizar pedido
+            </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <div class="row gx-card mx-0 bg-200 text-900 fs--1 fw-semi-bold">
+        <div class="col-8 col-md-7 py-2">Articulo</div>
+        <div class="col-4 col-md-5">
+          <div class="row">
+            <div class="col-md-3 py-2 d-none d-md-block text-center">Cantidad</div>
+            <div class="col-12 col-md-3 text-end py-2">Descuento</div>
+            <div class="col-12 col-md-3 text-end py-2">Precio</div>
+            <div class="col-12 col-md-3 text-end py-2">SubTotal</div>
+          </div>
+        </div>
+      </div>
+      {% for i in cart %}
+        <div class="row gx-card mx-0 align-items-center border-bottom border-200">
+          <div class="col-7 py-3">
+            <div class="d-flex align-items-center">
+              <a href="javascript:void(0);">
+                <img class="img-fluid rounded-1 me-3 d-none d-md-block" src="{{i.img}}" alt="" width="60" />
+              </a>
+              <div class="flex-1">
+                <h5 class="fs-0">
+                  <a class="text-900" href="javascript:void(0);">{{i.product}}</a>
+                </h5>
+                <div class="fs--2 fs-md--1">
+                  <a class="text-danger" href="javascript:void(0);">Eliminar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-5 py-3">
+            <div class="row align-items-center">
+              <div class="col-md-3 d-flex justify-content-end justify-content-md-center order-1 order-md-0">
+                <div>
+                  <div class="input-group input-group-sm flex-nowrap" data-quantity="data-quantity">
+                    <button class="btn btn-sm btn-outline-secondary border-300 px-2 less" id="{{i.code}}" data-type="minus">-</button>
+                    <input class="form-control text-center px-2 input-spin-none quanty{{i.code}}" type="number" min="1" value="{{i.quanty}}" aria-label="Cantidad (al dólar más cercano)" style="width: 50px" />
+                    <button class="btn btn-sm btn-outline-secondary border-300 px-2 plus" id="{{i.code}}" data-type="plus">+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 text-end ps-0 order-0 order-md-1 mb-2 mb-md-0 text-600">{{i.discount}}</div>
+              <div class="col-md-3 text-end ps-0 order-0 order-md-1 mb-2 mb-md-0 text-600">$<span class="price_row{{i.code}}">{{i.price}}</span></div>
+              <div class="col-md-3 text-end ps-0 order-0 order-md-1 mb-2 mb-md-0 text-600">$<span class="total_row{{i.code}} total_row">{{i.total}}</span></div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+      <div class="row fw-bold gx-card mx-0">
+        <div class="col-9 col-md-8 py-2 text-end text-900">Total</div>
+        <div class="col px-0">
+          <div class="row gx-card mx-0">
+            <div class="col-md-8 py-2 d-none d-md-block text-center">{{cnt_cart}} ({% if cnt_cart == 1 %}artículo{% else %}artículos{% endif %})</div>
+            <div class="col-12 col-md-4 text-end py-2">$<span class="total_order">{{total}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button trigger modal -->
+<button type="button" hidden class="btn btn-primary modal_alert" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
+      </div>
+      <div class="modal-body">
+        Para finalizar el pedido debe ingresar a su cuenta
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary Login">Ingresar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block script %}
+
+  <script>
+    function Recalculate(id,type){
+      $.ajax({
+        url:"{% url 'Add_Cart' %}",
+        data:{'code':id,'quanty':$(".quanty"+id).val()},
+        success: function(e){
+          $(".number_cart").text(e)
+          price = parseInt($(".price_row"+id).text()) * parseInt($(".quanty"+id).val())
+          $(".total_row"+id).text(price)
+          total_order = 0
+          var matches = document.querySelectorAll(".total_row");
+          matches.forEach(function(value) {
+            total_order += parseInt(value.textContent)
+          });
+          console.log(new Intl.NumberFormat('es-MX').format(total_order)); 
+          $(".total_order").text(new Intl.NumberFormat('es-MX').format(total_order))
+        }
+      })
+    }
+
+    $(".checkout").click(function(){
+      console.log("{{request.session.user}}")
+    })
+
+
+
+
+
+
+    $(document).ready(function(){
+
+      $(".end_order").click(function(){
+        user = '{{request.session.user}}'
+        if(user){
+          location.href = "{% url 'Invoice' %}"
+        }
+        else{
+          $(".modal_alert").click()
+        }
+
+      })
+
+      $(".Login").click(function(){
+        location.href = "{% url 'Login' %}"
+      })
+
+      $(document).on('click','.plus',function(){
+        Recalculate(this.id)
+      })
+      
+      $(document).on('click','.less',function(){
+        Recalculate(this.id)
+      })
+
+    })
+  </script>
+
+{% endblock %}
