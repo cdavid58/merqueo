@@ -14,7 +14,7 @@
           <h5 class="mb-3 mb-md-0">Carrito de compras ({{cnt_cart}} {% if cnt_cart == 1 %}artículo{% else %}artículos{% endif %})</h5>
         </div>
         <div class="col-md-auto">
-          <a class="btn btn-sm btn-outline-success border-300 me-2" href="{% url 'List_Products' request.session.categoria request.session.subcategory %}"> 
+          <a class="btn btn-sm btn-outline-success border-300 me-2" href="{% url 'List_Products' request.session.categoria request.session.subcategory %}">
             <span class="fas fa-chevron-left me-1" data-fa-transform="shrink-4"></span>
             Continuar comprando
           </a>
@@ -126,7 +126,7 @@
           matches.forEach(function(value) {
             total_order += parseInt(value.textContent)
           });
-          console.log(new Intl.NumberFormat('es-MX').format(total_order)); 
+          console.log(new Intl.NumberFormat('es-MX').format(total_order));
           $(".total_order").text(new Intl.NumberFormat('es-MX').format(total_order))
         }
       })
@@ -146,7 +146,18 @@
       $(".end_order").click(function(){
         user = '{{request.session.user}}'
         if(user){
-          location.href = "{% url 'Invoice' %}"
+            if(parseInt($(".total_order").text().replace('.','').replace(',','')) > 35000 ){
+                location.href = "{% url 'Invoice' %}"
+            }
+            else{
+                console.log("La compra debe ser mayor de 35.000")
+                $.gritter.add({
+                  title: 'Exito!',
+                  text: 'La compra debe ser mayor de 35.000 pesos colombianos',
+                  time: 3000,
+                  position: 'center'
+              	});
+            }
         }
         else{
           $(".modal_alert").click()
@@ -161,7 +172,7 @@
       $(document).on('click','.plus',function(){
         Recalculate(this.id)
       })
-      
+
       $(document).on('click','.less',function(){
         Recalculate(this.id)
       })

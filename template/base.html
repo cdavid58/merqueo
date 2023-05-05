@@ -6,12 +6,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Aquí podras realizar tu mercado, con tan solo algunos click, sin necesidad de salir a la calle."/>
+    <meta name="keywords" content="arroz,mercado,pastas,desechables,compras,mercar,merqueo,jugos,frutas,verduras,tienda,pedido,rapido,rapi,licores,bebidas,platos,bolsas,cremas"/>
+    <meta name="author" content="Carlos Del Aguila" />
+    <meta name="copyright" content="Evansoft" />
+    <meta name="description" content= "Aquí podras realizar tu mercado, con tan solo algunos click, sin necesidad de salir a la calle." />
+    <meta name="robots" content= "index, follow">
+
 
     <style>
-      input[type=number]::-webkit-inner-spin-button, 
-      input[type=number]::-webkit-outer-spin-button { 
-        -webkit-appearance: none; 
-        margin: 0; 
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
       }
 
       input[type=number] { -moz-appearance:textfield; }
@@ -78,7 +85,7 @@
         {% include './menu_web.html' %}
         <div class="content">
           <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
-            <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+            <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Menú"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
              <a class="navbar-brand" href="{% url 'Index' %}">
               <div class="d-flex align-items-center py-3">
                 <span class="font-sans-serif" style="font-size:20px;">RapiMercados</span>
@@ -171,7 +178,7 @@
           <footer class="footer">
             <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
               <div class="col-12 col-sm-auto text-center">
-                <p class="mb-0 text-600"><span class="d-none d-sm-inline-block"> 2022 &copy; |</span><br class="d-sm-none" />Developed by <a href="https://evansoft.com.co">Evansoft</a></p>
+                <p class="mb-0 text-600"><span class="d-none d-sm-inline-block"> 2023 &copy; |</span><br class="d-sm-none" /></p>
               </div>
               <div class="col-12 col-sm-auto text-center">
                 <p class="mb-0 text-600">v1.0</p>
@@ -181,7 +188,7 @@
         </div>
       </div>
     </main>
-    
+
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -208,7 +215,7 @@
     <script>
     $(document).ready(function(){
         // console.clear()
-        
+
 
     })
     var settings = {
@@ -226,7 +233,7 @@
                   <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0);" aria-expanded="false">
                       <div class="d-flex align-items-center">
-                        <a href="http://localhost:8000/List_Products/${value.category.replace(' ','_').replace(' ','_').replace(' ','_').replace(' ','_')}/${value.name.replace(' ','_').replace(' ','_').replace(' ','_').replace(' ','_')}" style="text-decoration: none !important;color: #5e6e82;">
+                        <a href="https://rapimercado.pythonanywhere.com/List_Products/${value.category.replace(' ','_').replace(' ','_').replace(' ','_').replace(' ','_')}/${value.name.replace(' ','_').replace(' ','_').replace(' ','_').replace(' ','_')}" style="text-decoration: none !important;color: #5e6e82;">
                           <span class="nav-link-text ps-1">${value.name}</span>
                         </a>
                       </div>
@@ -235,7 +242,7 @@
               </ul>
               `
           }
-          
+
           return information
         }
 

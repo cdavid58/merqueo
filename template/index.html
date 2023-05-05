@@ -12,6 +12,12 @@
     margin: auto;
   }
 
+  .img{
+      width: 100% !important;
+      height: 90% !important;
+  }
+
+
 </style>
 
 {% for i in category %}
@@ -22,7 +28,7 @@
         {% if j.category == i.name %}
           <div class="item">
             <div class="my-card">
-              <img src="{{j.img}}" style="width: 100%;height: 100%;" alt="Descripción de la imagen">
+              <img src="{{j.img}}" class="img" alt="Descripción de la imagen">
               {% if j.discount > 0 %}
                 <span class="badge rounded-pill bg-danger position-absolute mt-2 me-2 z-index-2 top-0 start-0 p-1"> -{{j.discount}}%
                 </span>
@@ -51,6 +57,7 @@
       autoplay: true, // Activamos el autoplay
       autoplayTimeout: 3500, // Tiempo de espera entre cada movimiento
       autoplayHoverPause: true,
+      dots:false,
       responsive:{
         0:{
             items:1

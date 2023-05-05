@@ -47,7 +47,7 @@ def List_Products(request,c,s):
 	response = requests.request("POST", url, headers=headers, data=payload)
 	print(response.text)
 	data = json.loads(response.text)
-	return render(request,'ecommerce/product_grid.html',{'data':data,'c':c,'s':s})	
+	return render(request,'ecommerce/product_grid.html',{'data':data,'c':c,'s':s})
 
 def Add_Cart(request):
 	if request.is_ajax():
@@ -77,9 +77,6 @@ def View_Shopping_Cart(request):
 		request.session['subcategory'] = str(request.session['subcategory']).replace(' ','_')
 	except Exception as e:
 		pass
-	print(request.session['categoria'])
-	print(request.session['subcategory'])
-	print(request.session['data_user']['name'])
 	cart = Cart(request)
 	subtotal = 0
 	for i in cart:
@@ -131,7 +128,7 @@ def Login(request):
 		if result['result']:
 			request.session['data_user'] = result['data']
 			request.session['user'] = request.GET['email']
-		return HttpResponse(result)
+		return HttpResponse(json.dumps(result))
 	return render(request,'authentication/login.html')
 
 def Register(request):
